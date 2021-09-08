@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto
+  labels:
+    app: mosquitto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mosquitto 
+    spec:
+      containers:
+      - name: mosquitto 
+        image: eclipse-mosquitto:latest 
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 1883
+          name: "tcp-port" 
+          protocol: TCP
+        volumeMounts:
+        - name: mosquitto
+          mountPath: mosquitto/config
+          subPath: mosquitto/config
+        - name: mosquitto
+          mountPath: mosquitto/data
+          subPath: mosquitto/data
+        - name: mosquitto
+          mountPath: mosquitto/log
+          subPath: mosquitto/log
+      volumes:
+      - name: mosquitto 
+        persistentVolumeClaim:
+          claimName: synology-mosquitto
