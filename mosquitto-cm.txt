@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mqtt-config
+  namespace: default
+data:
+  mosquitto.conf: |
+    bind_address 0.0.0.0
+    persistence true
+    persistence_location /mosquitto/data/persistence
+    log_dest stdout
+    log_type warning
+    connection_messages true
+    log_timestamp true
+    allow_anonymous false
+    password_file /mosquitto/data/passwd
+#Notes:
+#The password file has the accounts and passwords from the 'mosquitto_passwd' command
+#I use an init container to run mosquitto_passwd -U to convert it from the plain text version to a hashed version. 
+#The init container is the only one that sees the unhashed password before it's converted and deleted
