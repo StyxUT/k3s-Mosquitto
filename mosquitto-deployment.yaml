@@ -26,16 +26,16 @@ spec:
           name: "tcp-port" 
           protocol: TCP
         volumeMounts:
-        - name: mosquitto
+        - name: k8s-pv01
           mountPath: mosquitto/config
           subPath: mosquitto/config
-        - name: mosquitto
+        - name: k8s-pv01
           mountPath: mosquitto/data
           subPath: mosquitto/data
-        - name: mosquitto
+        - name: k8s-pv01
           mountPath: mosquitto/log
           subPath: mosquitto/log
       volumes:
-      - name: mosquitto 
+      - name: k8s-pv01 
         persistentVolumeClaim:
-          claimName: synology-mosquitto
+          claimName: synology-k8s-pv01
